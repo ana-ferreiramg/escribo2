@@ -21,6 +21,7 @@
     - [**Pré-requisitos**](#pré-requisitos)
     - [**Passos para Rodar o Backend**](#passos-para-rodar-o-backend)
   - [📡 Principais Endpoints da API](#-principais-endpoints-da-api)
+  - [🔐 Configuração do Supabase Auth](#-configuração-do-supabase-auth)
   - [🎯 Contribuição](#-contribuição)
   - [📄 Licença](#-licença)
   - [📞 Contato](#-contato)
@@ -50,12 +51,12 @@ O sistema foi construído com o objetivo de demonstrar a aplicação prática de
 
 ## 🛠️ Como Rodar o Projeto
 ### **Pré-requisitos**
-| Ferramenta   | Versão mínima           | Observações                                            |
-| ----------   | ----------------------- | ------------------------------------------------------ |
-| Node.js      | 22.x ou superior        | Download                                               |
-| Yarn         | 1.22.x ou superior      | Instalação                                             |
-| Git          | Qualquer versão estável | Para clonar o repositório                              |
-| Supabase CLI | 10.x ou superior        | npm install supabase --save-dev                        |
+| Ferramenta   | Versão mínima           | Observações                     |
+| ------------ | ----------------------- | ------------------------------- |
+| Node.js      | 22.x ou superior        | Download                        |
+| Yarn         | 1.22.x ou superior      | Instalação                      |
+| Git          | Qualquer versão estável | Para clonar o repositório       |
+| Supabase CLI | 10.x ou superior        | npm install supabase --save-dev |
 
 ### **Passos para Rodar o Backend**
 ```sh
@@ -74,14 +75,28 @@ yarn dev
 ```
 
 ## 📡 Principais Endpoints da API
-| Método | Endpoint     | Descrição                         |
-| ------ | ------------ | --------------------------------- |
-| POST   | /signup      | Criação de conta                  |
-| POST   | /login       | Autenticação do usuário           |
-| GET    | /plans       | Listagem de planos                |
-| POST   | /plans       | Criação de novo plano             |
-| PATCH  | /plans/:id   | Atualização de um plano           |
-| DELETE | /plans/:id   | Exclusão de um plano              |  |
+| Método | Endpoint   | Descrição               |
+| ------ | ---------- | ----------------------- |
+| POST   | /signup    | Criação de conta        |
+| POST   | /login     | Autenticação do usuário |
+| GET    | /plans     | Listagem de planos      |
+| POST   | /plans     | Criação de novo plano   |
+| PATCH  | /plans/:id | Atualização de um plano |
+| DELETE | /plans/:id | Exclusão de um plano    |  |
+
+
+## 🔐 Configuração do Supabase Auth
+
+Para evitar erros de redirecionamento (como o login redirecionar para `localhost`), configure as **Redirect URLs** no painel do Supabase:
+
+1. Acesse o Dashboard → URL Configuration → Site URL
+2. Em “Redirect URLs”, adicione:
+   - `http://localhost:3000` (para ambiente local)
+   - `https://seuprojeto.vercel.app/login` (para ambiente de produção)
+3. Salve as alterações
+
+Essas URLs garantem que o Supabase envie corretamente o link de confirmação de e-mail para o ambiente certo.
+
 
 ## 🎯 Contribuição
 Se deseja contribuir para o projeto, siga os seguintes passos:
