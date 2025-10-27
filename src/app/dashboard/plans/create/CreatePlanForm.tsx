@@ -24,7 +24,7 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}`,
+            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}`, "name": "Functions"
           },
 
           body: JSON.stringify({
