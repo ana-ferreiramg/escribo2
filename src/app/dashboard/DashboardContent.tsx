@@ -76,7 +76,7 @@ export default function DashboardContent({ user }: DashboardContentProps) {
       </div>
 
       {plans.length === 0 ? (
-        <p className="text-muted-foreground mt-4 text-center min-h-2/4">Nenhum plano criado ainda.</p>
+        <p className="text-muted-foreground mt-4 text-center">Nenhum plano criado ainda.</p>
       ) : (
         <table className="w-full mt-4 border-collapse border border-gray-300 rounded-lg overflow-hidden">
           <thead>
