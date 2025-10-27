@@ -1,5 +1,5 @@
 import { generatePlan } from "@/lib/gemini";
-import { supabase } from "@/lib/supabaseClient";
+import { createServerClient } from "@/lib/supabaseServer";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -19,10 +19,11 @@ export async function POST(req: NextRequest) {
       learning_objective,
     });
 
-    const { data, error } = await supabase.from("plans").insert([{
-      ...plan,
-      user_id,
-    }]).select();
+    const supabase = createServerClient(() => req.cookies);
+
+    const { data, error } = await supabase.from("plans").insert([
+      { ...plan, user_id },
+    ]).select();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -31,6 +32,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(data);
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: "Erro ao criar plano" }, { status: 500 });
+    return NextResponse.json({
+      error: (err as Error).message || "Erro ao criar plano",
+    }, { status: 500 });
   }
 }

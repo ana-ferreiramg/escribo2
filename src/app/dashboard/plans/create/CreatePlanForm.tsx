@@ -23,10 +23,10 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          user_id: userId,
           theme,
           introduction,
           learning_objective: learningObjective,
-          user_id: userId,
         }),
       });
 

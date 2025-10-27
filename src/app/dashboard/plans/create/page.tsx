@@ -1,33 +1,31 @@
-import { createClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
+"use client";
+
+import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import CreatePlanForm from "./CreatePlanForm";
 
-export default async function Page() {
-  const cookieStore = await cookies();
+export default function CreatePlanPage() {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      auth: {
-        persistSession: false,
-        detectSessionInUrl: false,
-        storage: {
-          getItem: (key: string) => cookieStore.get(key)?.value ?? null,
-          setItem: () => { },
-          removeItem: () => { },
-        },
-      },
-    }
-  );
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+      if (data.user) {
+        setUserId(data.user.id);
+      } else {
+        router.push("/login");
+      }
+      setLoading(false);
+    };
 
-  if (!session?.user) {
-    return <p>You must be logged in to create a plan.</p>;
-  }
+    getUser();
+  }, [router]);
 
-  return <CreatePlanForm userId={session.user.id} />;
+  if (loading) return <p>Carregando...</p>;
+
+  return userId ? <CreatePlanForm userId={userId} /> : null;
 }
