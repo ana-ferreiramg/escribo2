@@ -3,6 +3,7 @@
 import { supabase } from "@/lib/supabaseClient";
 import { Plan } from "@/types/plan";
 import { User } from "@/types/user";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -57,7 +58,7 @@ export default function DashboardContent({ user }: DashboardContentProps) {
   }
 
   return (
-    <div className="p-6 mt-16 max-w-5xl mx-auto">
+    <div className="px-6 mt-16 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">
           Olá, {user.name?.split(" ")[0]} 👋 <br />
@@ -68,14 +69,14 @@ export default function DashboardContent({ user }: DashboardContentProps) {
 
         <button
           onClick={handleCreatePlan}
-          className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+          className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
         >
-          Criar novo plano ➕
+          Criar novo plano <Image src="/add.svg" alt="add icon" width={15} height={15} />
         </button>
       </div>
 
       {plans.length === 0 ? (
-        <p className="text-muted-foreground mt-4">Nenhum plano criado ainda.</p>
+        <p className="text-muted-foreground mt-4 text-center h-full">Nenhum plano criado ainda.</p>
       ) : (
         <table className="w-full mt-4 border-collapse border border-gray-300 rounded-lg overflow-hidden">
           <thead>
