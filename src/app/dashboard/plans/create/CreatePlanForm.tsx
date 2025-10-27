@@ -19,7 +19,7 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
     setLoading(true);
 
     try {
-      const res = await fetch("/dashboard/plans/create", {
+      const res = await fetch("/dashboard/plans/create/api", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
