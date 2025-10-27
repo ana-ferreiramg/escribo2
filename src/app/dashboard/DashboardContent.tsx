@@ -71,7 +71,7 @@ export default function DashboardContent({ user }: DashboardContentProps) {
           onClick={handleCreatePlan}
           className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
         >
-          Criar novo plano <Image src="/add.svg" alt="add icon" width={15} height={15} />
+          Criar novo plano <Image src="/icons/add.svg" alt="add icon" width={15} height={15} />
         </button>
       </div>
 
