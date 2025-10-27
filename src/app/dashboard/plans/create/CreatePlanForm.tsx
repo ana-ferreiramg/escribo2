@@ -19,7 +19,7 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEX_PUBLIC_SUPABASE_FUNCTION_URL}/createPlan`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_FUNCTION_URL}/createPlan`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
