@@ -19,9 +19,13 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
     setLoading(true);
 
     try {
-      const res = await fetch("/dashboard/plans/create/api", {
+      const res = await fetch(`${process.env.NEX_PUBLIC_SUPABASE_FUNCTION_URL}/createPlan`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}`,
+        },
+
         body: JSON.stringify({
           user_id: userId,
           theme,
@@ -31,11 +35,15 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
       });
 
       const data = await res.json();
-      if (res.ok) {
-        router.push("/dashboard");
-      } else {
+
+      if (!res.ok) {
         console.error("Erro:", data.error);
+        return;
       }
+
+      router.push('/dashboard');
+    } catch (err) {
+      console.error("Erro geral:", err);
     } finally {
       setLoading(false);
     }
