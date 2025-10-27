@@ -1,5 +1,5 @@
 import { generatePlan } from "@/lib/gemini";
-import { createServerClient } from "@/lib/supabaseServer";
+import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -19,19 +19,24 @@ export async function POST(req: NextRequest) {
       learning_objective,
     });
 
-    const supabase = createServerClient(() => req.cookies);
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    );
 
-    const { data, error } = await supabase.from("plans").insert([
-      { ...plan, user_id },
-    ]).select();
+    const { data, error } = await supabase.from("plans").insert([{
+      ...plan,
+      user_id,
+    }]).select();
 
     if (error) {
+      console.error("Erro Supabase:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json(data);
   } catch (err) {
-    console.error(err);
+    console.error("Erro geral POST route:", err);
     return NextResponse.json({
       error: (err as Error).message || "Erro ao criar plano",
     }, { status: 500 });
