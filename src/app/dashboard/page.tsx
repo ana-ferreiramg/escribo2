@@ -4,13 +4,17 @@
 import DashboardContent from "@/app/dashboard/DashboardContent";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@/types/user";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const getUser = async () => {
+      setLoading(true);
       const { data } = await supabase.auth.getUser();
 
       if (data.user) {
@@ -24,12 +28,14 @@ export default function DashboardPage() {
         setUser(mappedUser);
       } else {
         setUser(null);
+        router.push('/login');
       }
+      setLoading(false);
     };
     getUser();
-  }, []);
+  }, [router]);
 
-  if (!user) return <p>Carregando...</p>;
+  if (loading) return <p>Carregando...</p>;
 
-  return <DashboardContent user={user} />;
+  return user ? <DashboardContent user={user} /> : null;
 }
