@@ -19,20 +19,22 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_FUNCTION_URL}/createPlan`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}`,
-        },
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_FUNCTION_URL}/createPlan`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, "Authorization": `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}`,
+          },
 
-        body: JSON.stringify({
-          user_id: userId,
-          theme,
-          introduction,
-          learning_objective: learningObjective,
-        }),
-      });
+          body: JSON.stringify({
+            user_id: userId,
+            theme,
+            introduction,
+            learning_objective: learningObjective,
+          }),
+        }
+      );
 
       const data = await res.json();
 

@@ -11,18 +11,23 @@ serve(async (req) => {
     const { user_id, theme, introduction, learning_objective } = await req
       .json();
 
-    const response = await fetch("https://api.gemini.com/v2.5/flash", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${Deno.env.get("GEMINI_API_KEY")}`,
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${
+        Deno.env.get("GEMINI_API_KEY")
+      }`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Deno.env.get("GEMINI_API_KEY")}`,
+        },
+        body: JSON.stringify({
+          theme,
+          introduction,
+          learning_objective,
+        }),
       },
-      body: JSON.stringify({
-        theme,
-        introduction,
-        learning_objective,
-      }),
-    });
+    );
 
     const geminiData = await response.json();
 
