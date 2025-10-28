@@ -43,6 +43,7 @@ export default function CreatePlanForm({ userId }: CreatePlanFormProps) {
         return;
       }
 
+      router.refresh();
       router.push('/dashboard');
     } catch (err) {
       console.error("Erro geral:", err);

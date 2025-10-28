@@ -33,25 +33,37 @@ serve(async (req) => {
           "Authorization": `Bearer ${Deno.env.get("GEMINI_API_KEY")}`,
         },
         body: JSON.stringify({
-          theme,
-          introduction,
-          learning_objective,
+          model: "gemini-1.5-flash",
+          content: [
+            {
+              type: "text",
+              text: `Crie um plano de estudo:
+                    Tema: ${theme}
+                    Introdução: ${introduction || "Sem introdução"}
+                    Objetivo de aprendizagem: ${
+                learning_objective || "Não informado"
+              }`,
+            },
+          ],
         }),
       },
     );
 
     const geminiData = await response.json();
 
-    const { data, error } = await supabase
-      .from("plans")
-      .insert({
-        user_id,
-        theme,
-        introduction,
-        learning_objective,
-        activity_steps: geminiData.activity_steps,
-        evaluation_rubric: geminiData.evaluation_rubric,
-      });
+    const activity_steps = geminiData?.candidates?.[0]?.content?.[0]?.text ||
+      "";
+    const evaluation_rubric = geminiData?.candidates?.[0]?.content?.[1]?.text ||
+      "";
+
+    const { data, error } = await supabase.from("plans").insert([{
+      user_id,
+      theme,
+      introduction,
+      learning_objective,
+      activity_steps,
+      evaluation_rubric,
+    }]).select();
 
     if (error) throw error;
 
