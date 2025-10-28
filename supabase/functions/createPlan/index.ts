@@ -55,7 +55,10 @@ serve(async (req) => {
 
     if (error) throw error;
 
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: corsHeaders,
+    });
   } catch (err) {
     return new Response(
       JSON.stringify({ error: (err as Error).message }),
