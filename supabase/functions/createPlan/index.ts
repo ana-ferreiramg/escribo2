@@ -57,8 +57,9 @@ serve(async (req) => {
 
     return new Response(JSON.stringify(data), { status: 200 });
   } catch (err) {
-    return new Response(JSON.stringify({ error: (err as Error).message }), {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({ error: (err as Error).message }),
+      { status: 500, headers: corsHeaders },
+    );
   }
 });
